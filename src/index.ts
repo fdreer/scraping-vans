@@ -16,10 +16,13 @@ const init = async () => {
 
     const allSizes = await getAllSizes(page)
     const availableSizes = getAvailableSizes(allSizes)
-    const luzSize = checkStock(availableSizes, LUZ_SIZE)
+    console.log("availableSizes: ", availableSizes)
+    const luzSize = checkStock(availableSizes)
+    console.log("luzSize: ", luzSize)
 
     if (luzSize.length > 0) {
       await sendMessage(luzSize)
+      console.log("Stock disponible!!!")
     } else {
       console.log("No hay stock")
     }
