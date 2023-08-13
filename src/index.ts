@@ -16,9 +16,7 @@ const init = async () => {
 
     const allSizes = await getAllSizes(page)
     const availableSizes = getAvailableSizes(allSizes)
-    console.log("availableSizes: ", availableSizes)
     const luzSize = checkStock(availableSizes)
-    console.log("luzSize: ", luzSize)
 
     if (luzSize.length > 0) {
       await sendMessage(luzSize)

@@ -3,7 +3,7 @@ import { Size } from "./types"
 
 const sendMessage = async (sizes: Size[]) => {
   const snsClient = new SNSClient({
-    region: `${process.env.AWS_REGION}` || "us-east-1",
+    region: "us-east-1",
     credentials: {
       accessKeyId: `${process.env.ACCESS_KEY_AWS}`,
       secretAccessKey: `${process.env.SECRET_ACCESS_KEY}`,

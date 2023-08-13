@@ -1,4 +1,4 @@
 export type Size = {
-  size: string | null
+  size: string
   available: boolean
 }
