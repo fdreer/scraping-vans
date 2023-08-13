@@ -1,5 +1,5 @@
 import { SNSClient, PublishCommand } from "@aws-sdk/client-sns"
-import { Size } from "./types"
+import { Size } from "../types"
 
 const sendMessage = async (sizes: Size[]) => {
   const snsClient = new SNSClient({
@@ -24,10 +24,9 @@ const sendMessage = async (sizes: Size[]) => {
   const run = async () => {
     try {
       const data = await snsClient.send(new PublishCommand(params))
-      console.log(`Success:\n${data}`)
       return data
     } catch (err) {
-      console.log(`Success:\n${err}`)
+      console.error(`Success:\n${err}`)
     }
   }
   await run()

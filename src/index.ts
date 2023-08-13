@@ -1,45 +1,19 @@
 import { config } from "dotenv"
-import { launchChromium } from "playwright-aws-lambda"
-import { checkStock, getAllSizes, getAvailableSizes } from "./vans"
-import sendMessage from "./sendMessage"
-import { LUZ_SIZE, URL_PAGE } from "./consts"
+import express from "express"
+import cors from "cors"
+import router from "./router"
+import { PATH } from "./consts"
 
 config()
-const URL = process.env.URL || URL_PAGE
 
-const init = async () => {
-  const browser = await launchChromium({ headless: true })
-  try {
-    const context = await browser.newContext()
-    const page = await context.newPage()
-    await page.goto(`${URL}`)
+const PORT = process.env.PORT || 3000
+const app = express()
 
-    const allSizes = await getAllSizes(page)
-    const availableSizes = getAvailableSizes(allSizes)
-    const luzSize = checkStock(availableSizes)
+app.use(cors())
+app.use(express.json())
 
-    if (luzSize.length > 0) {
-      await sendMessage(luzSize)
-      console.log("Stock disponible!!!")
-    } else {
-      console.log("No hay stock")
-    }
-  } catch (error) {
-    console.log(`${error}`)
-    return error
-  } finally {
-    await browser.close()
-  }
-}
+app.use(PATH, router)
 
-// Para ejecutar el local
-init()
-
-// Para AWS Lambda
-// export const handler = async (event, callback) => {
-//   const message = await init()
-//   return {
-//     body: JSON.stringify("App is running"),
-//     statusCode: 200,
-//   }
-// }
+app.listen(PORT, () => {
+  console.log("Server is running in PORT: " + PORT)
+})
