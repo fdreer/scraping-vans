@@ -1,5 +1,5 @@
 import { config } from "dotenv"
-import { launchChromium } from "playwright-aws-lambda"
+import { chromium } from "playwright-chromium"
 import { URL_PAGE } from "../consts"
 import { checkStock, getAllSizes, getAvailableSizes } from "../utils/vans"
 import { ErrorHandler } from "../errors/errors"
@@ -9,7 +9,7 @@ config()
 const URL = process.env.URL || URL_PAGE
 
 const getVans = async () => {
-  const browser = await launchChromium({ headless: true })
+  const browser = await chromium.launch({ headless: true })
   const context = await browser.newContext()
   const page = await context.newPage()
   await page.goto(`${URL}`)
